@@ -1,6 +1,5 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
-//var table = require("table");
 var Table = require("cli-table");
 
 var connection = mysql.createConnection({
@@ -13,6 +12,9 @@ var connection = mysql.createConnection({
 
 connection.connect(function(error) {
     if (error) throw error;
+    console.log("-------------------------------");
+    console.log("*****Welcome To Bamazon********");
+    console.log("-------------------------------");
     readproducts();
 });
 
@@ -20,10 +22,8 @@ connection.connect(function(error) {
 function readproducts() {
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
-        console.log("------------------------------");
-        console.log("    Welcome To Bamazon        ");
-        console.log("------------------------------");
-        // Log all results of the SELECT statement
+
+
         var table = new Table({
             head: ['id', 'product_name', 'price'],
             colWidths: [10, 60, 8]
@@ -36,29 +36,21 @@ function readproducts() {
         };
         console.log(table.toString());
 
-        buyProduct()
+        buyProduct();
     });
 
 }
-/*connection.query("SELECT id, product_name, price FROM products", function(error, response) {
-    if (error)
-        console.log(error);
-    else
-    // console.log(response);
-    // console.table(response);
-        
-    
-});*/
+
 
 function buyProduct() {
-    // query the database for all items being auctioned
+    // query the database for all items being sold
     connection.query("SELECT * FROM products", function(err, results) {
         if (err) throw err;
         var choiceArray = [];
         for (var i = 0; i < results.length; i++) {
             choiceArray.push(results[i].id);
         }
-        // once you have the items, prompt the user for which they'd like to bid on
+        // once you have the items, prompt the user what they would like to purchase 
         inquirer
             .prompt([{
                     name: "choice",
@@ -80,17 +72,16 @@ function buyProduct() {
                 connection.query("SELECT * FROM products WHERE id=" + chosenItemId, function(err, results) {
                     if (err) throw err;
                     console.log(results)
-                        // once you have the items, prompt the user for which they'd like to bid on
 
 
-                    // determine if bid was high enough
-                    console.log(results[0].stock_quantity, answer.unit);
-                    if (results[0].stock_quantity >= parseInt(answer.unit)) {
+                    // determine if the product is available
+                    //console.log(results[0].stock_quantity, answer.unit);
+                    if (results[0].stock_quantity >= parseInt(chosenUnit)) {
                         // bid was high enough, so update db, let the user know, and start over
-                        console.log("Congratulations! your item is in stock!")
-                        var newStock = results[0].stock_quantity - parseInt(answer.unit)
-                        console.log("--->", newStock, chosenItemId)
-                        var totalprice = parseInt(answer.unit) * results[0].price
+                        console.log("Congratulations! your item is in stock!");
+                        var newStock = results[0].stock_quantity - parseInt(chosenUnit);
+                        //console.log("--->", newStock, chosenItemId);
+                        var totalprice = parseInt(chosenUnit) * results[0].price
                             // chosenItemId.stock_quantity -= parseInt(answer.unit);
                         connection.query("UPDATE products SET ? WHERE ?", [{
                                     stock_quantity: newStock
@@ -103,7 +94,7 @@ function buyProduct() {
                             function(err, res) {
 
                                 console.log("order placed successfully!, total price: ", totalprice);
-                                keepORquit()
+                                keepOrQuit();
 
                                 // and i will call back to show the produts and to the inquire
                                 //  connection.end();
@@ -113,7 +104,7 @@ function buyProduct() {
                     } else {
                         // bid wasn't high enough, so apologize and start over
                         console.log("Insufficient quantity!");
-                        keepORquit()
+                        keepOrQuit();
                     }
 
                 });
@@ -121,15 +112,27 @@ function buyProduct() {
     });
 };
 
-function keepORquit() {
+function keepOrQuit() {
+    inquirer
+        .prompt([{
+            name: "reply",
+            type: "confirm",
+            message: "Would you like to buy more products? "
+        }])
+        .then(function(answer) {
+            if (answer.reply) {
+                readproducts();
+            } else {
+                console.log("Thanks for shopping with us. See you later!");
+                connection.end();
+                process.exit();
+
+            }
+        });
 
     //inq
     //  if yes readproducts()
     //else 
-    if (true) {
-        readproducts()
-    } else {
-        connection.end()
-        process.exit()
-    }
+
+
 }
