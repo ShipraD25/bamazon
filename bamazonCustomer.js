@@ -71,17 +71,15 @@ function buyProduct() {
 
                 connection.query("SELECT * FROM products WHERE id=" + chosenItemId, function(err, results) {
                     if (err) throw err;
-
-
                     // determine if the product is available
-                    //console.log(results[0].stock_quantity, answer.unit);
+
                     if (results[0].stock_quantity >= parseInt(chosenUnit)) {
-                        // bid was high enough, so update db, let the user know, and start over
+                        // if the unit asked is available, update db, let the user know ask to keep shoopinn or quit
                         console.log("Congratulations! your item is in stock!");
                         var newStock = results[0].stock_quantity - parseInt(chosenUnit);
-                        //console.log("--->", newStock, chosenItemId);
+
                         var totalprice = parseInt(chosenUnit) * results[0].price
-                            // chosenItemId.stock_quantity -= parseInt(answer.unit);
+
                         connection.query("UPDATE products SET ? WHERE ?", [{
                                     stock_quantity: newStock
                                 },
@@ -94,9 +92,7 @@ function buyProduct() {
 
                                 console.log("your order was placed successfully!, total price: ", totalprice);
                                 keepOrQuit();
-
                             })
-
                     } else {
                         // the unit asked by user was not in stock
                         console.log("Insufficient quantity!");
@@ -126,9 +122,6 @@ function keepOrQuit() {
             }
         });
 
-    //inq
-    //  if yes readproducts()
-    //else 
 
 
 }
