@@ -1,4 +1,70 @@
 # bamazon
+Bamazon is a Node and MySQL based ecommerce app(backend).
+The app will take in orders from customers and deplete stock from the store's inventory.It uses MySQL database to connect and retrieve product information.
+
+
+### App-Demo
+![app-demo](https://media.giphy.com/media/mGUz5tUcwYOiLPVhrn/giphy.gif)
+
+## Getting Started
+#### These instructions will get you a copy of the project up and running on your local machine.
+1. Clone the repository
+2. Run nmp install 
+#### Go to npmjs if you want to know more about other node modules used in the project:
+1. **inquirer**: https://www.npmjs.com/package/inquirer
+2. **mySQL**: https://www.npmjs.com/package/mysql
+3. **cli-table**: https://www.npmjs.com/package/cli-table
+## Built With
+- Nodejs
+- Javascript
+- github
+
+## How this work?
+
+#### Customer.js
+This module firstly displays all the items available for sale in the store. 
+Then it prompts user to select items to buy from the list.
+As the user selects 
+    
+
+
+### Code Snippet
+
+```
+this.displayLetter = function() {
+        if (this.guessed) {
+            return this.letter + " ";
+        } else {
+            return "_ ";
+        };
+    };
+```
+- Word.js: Contains the constructor, Word that depends on the Letter constructor. This is used to create an object representing the words (countries name in this case) the user is attempting to guess. The constructor includes:
+    - An array of new Letter objects representing the letters of the underlying word
+    - A function that returns a string representing the word. This should call the function on each letter object (the first function defined in Letter.js) that displays the character or an underscore and concatenate those together.
+    - A function that takes a character as an argument and calls the guess function on each letter object (the second function defined in Letter.js)
+### Code Snippet
+
+```
+var Word = function(word) {
+
+
+    this.lettersArr = [];
+
+    for (var i = 0; i < word.length; i++) {
+        if (word.charAt(i) === " ") {
+            this.lettersArr.push(" ");
+        } else {
+            this.lettersArr.push(new Letter(word.charAt(i)));
+        };
+    };
+```
+        
+
+- index.js: The file contains the logic for the course of the game, which depends on Word.js and:
+    - Randomly selects a word and uses the Word constructor to store it
+    - Prompts the user for each guess and keeps track of the user's remaining guesses.
+
 
 # Node.js & MySQL
 

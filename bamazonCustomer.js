@@ -71,7 +71,6 @@ function buyProduct() {
 
                 connection.query("SELECT * FROM products WHERE id=" + chosenItemId, function(err, results) {
                     if (err) throw err;
-                    console.log(results)
 
 
                     // determine if the product is available
@@ -93,16 +92,13 @@ function buyProduct() {
                             ],
                             function(err, res) {
 
-                                console.log("order placed successfully!, total price: ", totalprice);
+                                console.log("your order was placed successfully!, total price: ", totalprice);
                                 keepOrQuit();
-
-                                // and i will call back to show the produts and to the inquire
-                                //  connection.end();
 
                             })
 
                     } else {
-                        // bid wasn't high enough, so apologize and start over
+                        // the unit asked by user was not in stock
                         console.log("Insufficient quantity!");
                         keepOrQuit();
                     }
@@ -125,7 +121,7 @@ function keepOrQuit() {
             } else {
                 console.log("Thanks for shopping with us. See you later!");
                 connection.end();
-                process.exit();
+                //process.exit();
 
             }
         });
