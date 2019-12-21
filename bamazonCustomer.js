@@ -56,8 +56,17 @@ function buyProduct() {
                     name: "choice",
                     type: "rawlist",
                     choices: choiceArray,
-                    message: "What is the id of the product that you would like to buy?"
+                    message: "What is the id of the product that you would like to buy?",
+                    validate: function validateProductID(name) {
+                        if (!parseInt(name, 10)) {
+                            console.log("\nPlease introduce a valid id");
+
+                        } else {
+                            return true;
+                        }
+                    }
                 },
+
                 {
                     name: "unit",
                     type: "input",
