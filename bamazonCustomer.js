@@ -72,6 +72,7 @@ function buyProduct() {
                     type: "input",
                     message: "How many units of the product you would like to buy?"
                 }
+
             ])
             .then(function(answer) {
                 // get the information of the chosen item
