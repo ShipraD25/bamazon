@@ -4,7 +4,7 @@ The app will take in orders from customers and deplete stock from the store's in
 
 
 ### App-Demo
-![app-demo](https://media.giphy.com/media/cOzWoMyP95X6Z7u7CU/giphy.gif)
+![app-demo](https://media.giphy.com/media/VFSrqIT1SdpWeffKEF/giphy.gif)
 
 ## Getting Started
 #### These instructions will get you a copy of the project up and running on your local machine.
