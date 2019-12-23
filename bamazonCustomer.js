@@ -88,7 +88,7 @@ function buyProduct() {
                         console.log("Congratulations! your item is in stock!");
                         var newStock = results[0].stock_quantity - parseInt(chosenUnit);
 
-                        var totalprice = parseInt(chosenUnit) * results[0].price
+                        var totalprice = parseInt(chosenUnit) * results[0].price;
 
                         connection.query("UPDATE products SET ? WHERE ?", [{
                                     stock_quantity: newStock
